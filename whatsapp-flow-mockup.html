@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Habuild · WhatsApp Flow</title>
+<style>
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+ :root {
+ --wa-header: #075E54;
+ --wa-header-dark: #054C44;
+ --wa-teal: #128C7E;
+ --wa-chat-bg: #ECE5DD;
+ --wa-incoming: #FFFFFF;
+ --wa-outgoing: #DCF8C6;
+ --wa-tick: #34B7F1;
+ --wa-link: #027eb5;
+ --wa-meta: #667781;
+ }
+
+ html, body {
+ height: 100%;
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+ background: #d7dadc;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ overflow: hidden;
+ }
+
+ .stage {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 14px;
+ padding: 16px 0;
+ height: 100vh;
+ justify-content: center;
+ }
+
+ /* ---------- Feature switcher (above the phone) ---------- */
+ .switcher {
+ display: flex;
+ gap: 8px;
+ background: #fff;
+ padding: 6px;
+ border-radius: 999px;
+ box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+ }
+ .switcher button {
+ border: none;
+ background: transparent;
+ padding: 9px 20px;
+ border-radius: 999px;
+ font-size: 14px;
+ font-weight: 600;
+ color: #5c6b66;
+ cursor: pointer;
+ transition: all .25s ease;
+ }
+ .switcher button.active {
+ background: var(--wa-header);
+ color: #fff;
+ box-shadow: 0 3px 10px rgba(7,94,84,0.35);
+ }
+
+ /* ---------- Phone frame ---------- */
+ .phone {
+ width: 390px;
+ max-width: 94vw;
+ height: 800px;
+ max-height: 86vh;
+ background: #000;
+ border-radius: 44px;
+ padding: 11px;
+ box-shadow: 0 22px 60px rgba(0,0,0,0.35), 0 0 0 2px #1c1c1c;
+ position: relative;
+ }
+ .screen {
+ width: 100%;
+ height: 100%;
+ border-radius: 34px;
+ overflow: hidden;
+ background: var(--wa-chat-bg);
+ display: flex;
+ flex-direction: column;
+ position: relative;
+ }
+ /* iOS status bar */
+ .statusbar {
+ height: 38px;
+ background: var(--wa-header);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0 22px;
+ color: #fff;
+ font-size: 13px;
+ font-weight: 600;
+ flex-shrink: 0;
+ padding-top: 6px;
+ }
+ .statusbar .icons { display: flex; gap: 5px; align-items: center; }
+ .statusbar .icons svg { width: 16px; height: 16px; fill: #fff; }
+
+ /* ---------- Chat header ---------- */
+ .chat-header {
+ background: var(--wa-header);
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ padding: 8px 12px 10px;
+ color: #fff;
+ flex-shrink: 0;
+ }
+ .chat-header .back {
+ font-size: 24px;
+ line-height: 1;
+ padding: 0 2px;
+ cursor: pointer;
+ }
+ .chat-header .avatar {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ background: linear-gradient(135deg, #2d6a4f, #1a2e1a);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: 700;
+ font-size: 19px;
+ font-family: Georgia, "Times New Roman", serif;
+ color: #fdf8f0;
+ margin: 0 6px 0 2px;
+ flex-shrink: 0;
+ }
+ .chat-header .info { flex: 1; line-height: 1.25; min-width: 0; }
+ .chat-header .name {
+ font-size: 16px;
+ font-weight: 600;
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ }
+ .chat-header .verified {
+ display: inline-flex;
+ width: 15px; height: 15px;
+ background: #fff;
+ color: var(--wa-teal);
+ border-radius: 50%;
+ align-items: center;
+ justify-content: center;
+ font-size: 9px;
+ font-weight: 900;
+ }
+ .chat-header .sub {
+ font-size: 12px;
+ color: rgba(255,255,255,0.75);
+ }
+ .chat-header .actions { display: flex; gap: 18px; padding-right: 4px; }
+ .chat-header .actions svg { width: 21px; height: 21px; fill: #fff; }
+
+ /* ---------- Chat body ---------- */
+ .chat {
+ flex: 1;
+ overflow-y: auto;
+ padding: 12px 14px 8px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ background-color: var(--wa-chat-bg);
+ background-image:
+ radial-gradient(circle at 15% 12%, rgba(180,170,150,0.10) 0 2px, transparent 3px),
+ radial-gradient(circle at 78% 30%, rgba(180,170,150,0.10) 0 2px, transparent 3px),
+ radial-gradient(circle at 40% 55%, rgba(180,170,150,0.08) 0 2px, transparent 3px),
+ radial-gradient(circle at 88% 70%, rgba(180,170,150,0.10) 0 2px, transparent 3px),
+ radial-gradient(circle at 22% 82%, rgba(180,170,150,0.08) 0 2px, transparent 3px),
+ radial-gradient(circle at 60% 92%, rgba(180,170,150,0.10) 0 2px, transparent 3px);
+ background-size: 340px 340px;
+ }
+ .chat::-webkit-scrollbar { width: 0; }
+
+ /* encryption + date chip */
+ .chip-row { display: flex; justify-content: center; margin: 4px 0; }
+ .chip {
+ background: #d4eef9;
+ color: #5b6b73;
+ font-size: 11.5px;
+ padding: 5px 12px;
+ border-radius: 8px;
+ box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+ }
+ .chip.date { background: #e1ddd4; color: #5b6b73; }
+ .chip.enc {
+ background: #fcf4cb;
+ color: #6b6650;
+ text-align: center;
+ max-width: 290px;
+ line-height: 1.4;
+ font-size: 11px;
+ }
+
+ /* ---------- Bubbles ---------- */
+ .row { display: flex; }
+ .row.in { justify-content: flex-start; }
+ .row.out { justify-content: flex-end; }
+
+ .bubble {
+ max-width: 80%;
+ padding: 6px 9px 8px 10px;
+ border-radius: 10px;
+ font-size: 14.5px;
+ line-height: 1.42;
+ color: #111b21;
+ position: relative;
+ box-shadow: 0 1px 1px rgba(0,0,0,0.13);
+ word-wrap: break-word;
+ animation: pop .26s cubic-bezier(.2,.9,.3,1.2);
+ }
+ @keyframes pop {
+ from { opacity: 0; transform: translateY(8px) scale(.96); }
+ to { opacity: 1; transform: translateY(0) scale(1); }
+ }
+ .row.in .bubble {
+ background: var(--wa-incoming);
+ border-top-left-radius: 2px;
+ }
+ .row.out .bubble {
+ background: var(--wa-outgoing);
+ border-top-right-radius: 2px;
+ }
+ /* tails */
+ .row.in .bubble::before,
+ .row.out .bubble::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ width: 9px;
+ height: 13px;
+ }
+ .row.in .bubble::before {
+ left: -7px;
+ background: var(--wa-incoming);
+ clip-path: polygon(100% 0, 100% 100%, 0 0);
+ border-top-left-radius: 3px;
+ }
+ .row.out .bubble::before {
+ right: -7px;
+ background: var(--wa-outgoing);
+ clip-path: polygon(0 0, 0 100%, 100% 0);
+ border-top-right-radius: 3px;
+ }
+
+ .meta {
+ display: inline-flex;
+ align-items: center;
+ gap: 3px;
+ float: right;
+ margin: 4px 0 -3px 10px;
+ font-size: 10.5px;
+ color: var(--wa-meta);
+ user-select: none;
+ }
+ .meta .ticks { color: var(--wa-tick); font-size: 13px; line-height: 1; letter-spacing: -3px; }
+
+ /* ---------- Quick reply buttons (WhatsApp interactive) ---------- */
+ .qr-wrap {
+ display: flex;
+ flex-direction: column;
+ gap: 1.5px;
+ align-self: flex-start;
+ width: 80%;
+ max-width: 80%;
+ margin-top: -3px;
+ animation: pop .28s ease;
+ }
+ .qr-btn {
+ background: #fff;
+ border: none;
+ color: var(--wa-link);
+ font-size: 14.5px;
+ font-weight: 500;
+ padding: 11px;
+ text-align: center;
+ cursor: pointer;
+ box-shadow: 0 1px 1px rgba(0,0,0,0.13);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 7px;
+ transition: background .15s ease, transform .08s ease;
+ }
+ .qr-btn:first-child { border-radius: 10px 10px 4px 4px; }
+ .qr-btn:last-child { border-radius: 4px 4px 10px 10px; }
+ .qr-btn:only-child { border-radius: 8px; }
+ .qr-btn:not(:last-child) { border-bottom: 1px solid #eef0f1; }
+ .qr-btn:active { background: #f0f2f3; transform: scale(.985); }
+ .qr-btn svg { width: 15px; height: 15px; fill: var(--wa-link); }
+
+ /* poll-style options laid in a row group still vertical for WA list look */
+
+ /* ---------- Video message bubble ---------- */
+ .video-msg {
+ background: var(--wa-incoming);
+ border-radius: 10px;
+ border-top-left-radius: 2px;
+ padding: 4px;
+ box-shadow: 0 1px 1px rgba(0,0,0,0.13);
+ width: 75%;
+ position: relative;
+ animation: pop .26s ease;
+ }
+ .video-msg .thumb {
+ border-radius: 8px;
+ height: 150px;
+ background:
+ radial-gradient(circle at 30% 25%, rgba(255,255,255,0.18), transparent 50%),
+ linear-gradient(150deg, #2d6a4f, #1a2e1a 75%);
+ position: relative;
+ overflow: hidden;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+ .video-msg .thumb .body-illo {
+ position: absolute;
+ font-size: 64px;
+ opacity: 0.85;
+ bottom: 6px;
+ right: 12px;
+ filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+ }
+ .video-msg .play {
+ width: 50px; height: 50px;
+ border-radius: 50%;
+ background: rgba(0,0,0,0.45);
+ display: flex; align-items: center; justify-content: center;
+ z-index: 2;
+ }
+ .video-msg .play svg { width: 24px; height: 24px; fill: #fff; margin-left: 3px; }
+ .video-msg .dur {
+ position: absolute;
+ top: 12px; right: 12px;
+ background: rgba(0,0,0,0.5);
+ color: #fff;
+ font-size: 11px;
+ padding: 2px 7px;
+ border-radius: 10px;
+ display: flex; align-items: center; gap: 4px;
+ z-index: 2;
+ }
+ .video-msg .cap {
+ font-size: 13.5px;
+ color: #111b21;
+ padding: 7px 6px 4px;
+ line-height: 1.4;
+ }
+
+ /* ---------- Typing indicator ---------- */
+ .typing .bubble {
+ padding: 12px 14px;
+ display: inline-flex;
+ gap: 4px;
+ align-items: center;
+ }
+ .typing .dot {
+ width: 7px; height: 7px;
+ border-radius: 50%;
+ background: #9aa6ab;
+ animation: blink 1.3s infinite both;
+ }
+ .typing .dot:nth-child(2) { animation-delay: .2s; }
+ .typing .dot:nth-child(3) { animation-delay: .4s; }
+ @keyframes blink {
+ 0%, 60%, 100% { opacity: .35; transform: translateY(0); }
+ 30% { opacity: 1; transform: translateY(-3px); }
+ }
+
+ /* ---------- Input bar ---------- */
+ .inputbar {
+ flex-shrink: 0;
+ background: var(--wa-chat-bg);
+ padding: 7px 8px 9px;
+ display: flex;
+ align-items: center;
+ gap: 7px;
+ }
+ .input-field {
+ flex: 1;
+ background: #fff;
+ border-radius: 24px;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ padding: 9px 12px;
+ box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+ }
+ .input-field .emoji { font-size: 21px; opacity: .55; line-height: 1; }
+ .input-field input {
+ flex: 1;
+ border: none;
+ outline: none;
+ font-size: 15px;
+ background: transparent;
+ color: #111b21;
+ }
+ .input-field input::placeholder { color: #8696a0; }
+ .send-btn {
+ width: 44px; height: 44px;
+ border-radius: 50%;
+ background: var(--wa-header);
+ border: none;
+ display: flex; align-items: center; justify-content: center;
+ flex-shrink: 0;
+ cursor: pointer;
+ box-shadow: 0 2px 6px rgba(7,94,84,0.3);
+ }
+ .send-btn svg { width: 21px; height: 21px; fill: #fff; }
+
+ /* ---------- Replay button ---------- */
+ .replay {
+ position: absolute;
+ right: 14px;
+ bottom: 74px;
+ background: #fff;
+ border: 1px solid #e3ded4;
+ border-radius: 999px;
+ padding: 8px 14px;
+ font-size: 13px;
+ font-weight: 600;
+ color: var(--wa-header);
+ display: flex; align-items: center; gap: 6px;
+ box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+ cursor: pointer;
+ z-index: 5;
+ transition: transform .08s ease;
+ }
+ .replay:active { transform: scale(.94); }
+ .replay svg { width: 14px; height: 14px; fill: var(--wa-header); }
+
+ .caption-foot {
+ color: #5c6b66;
+ font-size: 12px;
+ text-align: center;
+ max-width: 360px;
+ line-height: 1.45;
+ }
+</style>
+</head>
+<body>
+<div class="stage">
+
+ <div class="switcher">
+ <button id="tab-breath" class="active" onclick="setFlow('breath')">Box Breathing</button>
+ <button id="tab-pain" onclick="setFlow('pain')">Pain Relief</button>
+ </div>
+
+ <div class="phone">
+ <div class="screen">
+
+ <!-- status bar -->
+ <div class="statusbar">
+ <span>9:41</span>
+ <div class="icons">
+ <svg viewBox="0 0 24 24"><path d="M2 22h20V2z"/></svg>
+ <svg viewBox="0 0 24 24"><path d="M12 4C7 4 2.7 6 0 9l12 13L24 9c-2.7-3-7-5-12-5z"/></svg>
+ <svg viewBox="0 0 24 24"><path d="M15.5 5h-1.7v14h1.7zm3.2 3.5H17V19h1.7zM12.3 8.5h-1.6V19h1.6zM9 11H7.4v8H9zm-3.3 2.5H4V19h1.7z"/><rect x="20.5" y="6" width="2.5" height="13" rx="1"/></svg>
+ </div>
+ </div>
+
+ <!-- chat header -->
+ <div class="chat-header">
+ <span class="back">‹</span>
+ <div class="avatar">H</div>
+ <div class="info">
+ <div class="name">Habuild <span class="verified">✓</span></div>
+ <div class="sub">business account</div>
+ </div>
+ <div class="actions">
+ <svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z"/></svg>
+ <svg viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2a15 15 0 01-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1C8.7 6.5 8.5 5.2 8.5 4c0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.5c0-.5-.5-1-1-1z"/></svg>
+ </div>
+ </div>
+
+ <!-- chat -->
+ <div class="chat" id="chat"></div>
+
+ <button class="replay" onclick="replay()">
+ <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></svg>
+ Replay
+ </button>
+
+ <!-- input bar: ONLY emoji + text + send -->
+ <div class="inputbar">
+ <div class="input-field">
+ <span class="emoji">☺</span>
+ <input type="text" placeholder="Message" readonly>
+ </div>
+ <button class="send-btn" aria-label="send">
+ <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+ </button>
+ </div>
+
+ </div>
+ </div>
+
+ <div class="caption-foot">A mockup of how the Habuild WhatsApp activity nudges play out. Tap the suggested replies.</div>
+</div>
+
+<script>
+ const chat = document.getElementById('chat');
+ let currentFlow = 'breath';
+ let busy = false;
+
+ const TIME = "8:02 pm";
+
+ /* ---------- helpers ---------- */
+ function scrollDown() {
+ chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
+ }
+
+ function metaIn() {
+ return `<span class="meta">${TIME}</span>`;
+ }
+ function metaOut() {
+ return `<span class="meta">${TIME} <span class="ticks">✓✓</span></span>`;
+ }
+
+ function addIncoming(html) {
+ const row = document.createElement('div');
+ row.className = 'row in';
+ row.innerHTML = `<div class="bubble">${html}${metaIn()}</div>`;
+ chat.appendChild(row);
+ scrollDown();
+ }
+
+ function addOutgoing(text) {
+ const row = document.createElement('div');
+ row.className = 'row out';
+ row.innerHTML = `<div class="bubble">${text}${metaOut()}</div>`;
+ chat.appendChild(row);
+ scrollDown();
+ }
+
+ function addVideo(part) {
+ const row = document.createElement('div');
+ row.className = 'row in';
+ const illo = { Knee: '🦵', Back: '🧘‍♀️', Neck: '💆‍♀️', Shoulder: '🤲' }[part] || '🧘‍♀️';
+ row.innerHTML = `
+ <div class="video-msg">
+ <div class="thumb">
+ <div class="dur">▷ 2:00</div>
+ <div class="body-illo">${illo}</div>
+ <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+ </div>
+ <div class="cap">1 gentle move for your ${part.toLowerCase()} · 2 min ${metaIn()}</div>
+ </div>`;
+ chat.appendChild(row);
+ scrollDown();
+ }
+
+ function addButtons(buttons) {
+ const wrap = document.createElement('div');
+ wrap.className = 'qr-wrap';
+ wrap.dataset.role = 'qr';
+ buttons.forEach(b => {
+ const btn = document.createElement('button');
+ btn.className = 'qr-btn';
+ btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 6H3v2h18V6zM3 18h12v-2H3v2zm0-5h18v-2H3v2z"/></svg>${b.label}`;
+ btn.onclick = () => {
+ if (busy) return;
+ clearButtons();
+ b.action(b.reply);
+ };
+ wrap.appendChild(btn);
+ });
+ chat.appendChild(wrap);
+ scrollDown();
+ }
+
+ function clearButtons() {
+ document.querySelectorAll('.qr-wrap[data-role="qr"]').forEach(e => e.remove());
+ }
+
+ function typing(duration, cb) {
+ busy = true;
+ const row = document.createElement('div');
+ row.className = 'row in typing';
+ row.innerHTML = `<div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+ chat.appendChild(row);
+ scrollDown();
+ setTimeout(() => {
+ row.remove();
+ busy = false;
+ cb();
+ }, duration);
+ }
+
+ /* sequence helper: array of {type, ...} played with typing between */
+ function botSay(html, after) {
+ typing(900, () => { addIncoming(html); if (after) after(); });
+ }
+
+ /* ============ FLOW: BOX BREATHING ============ */
+ function startBreath() {
+ chat.innerHTML = '';
+ addDateChips();
+ typing(800, () => {
+ addIncoming("🌬️ Good evening! Let's take 2 minutes together, right now.");
+ typing(1100, () => {
+ addIncoming("Breathe in for 4… hold for 4… out for 4. Done one round?");
+ addButtons([
+ { label: 'Done 🌬️', reply: 'Done 🌬️', action: breathDone },
+ { label: 'One more', reply: 'One more', action: breathOneMore }
+ ]);
+ });
+ });
+ }
+
+ function breathOneMore() {
+ addOutgoing('One more');
+ typing(1000, () => {
+ addIncoming("Take your time 💚 In for 4… hold 4… out for 4 …");
+ typing(1400, () => {
+ addIncoming("Done this round?");
+ addButtons([
+ { label: 'Done 🌬️', reply: 'Done 🌬️', action: breathDone }
+ ]);
+ });
+ });
+ }
+
+ function breathDone() {
+ addOutgoing('Done 🌬️');
+ typing(1000, () => {
+ addIncoming("Wonderful 💚 That calm you feel, you can have it any time of day.");
+ typing(1300, () => {
+ addIncoming("On the app, box breathing adjusts to <b>your</b> level and counts every session, over 128 of them.");
+ addButtons([
+ { label: 'See my level →', reply: 'See my level', action: breathOpenApp }
+ ]);
+ });
+ });
+ }
+
+ function breathOpenApp() {
+ addOutgoing('See my level');
+ typing(950, () => {
+ addIncoming("Opening your Box Breathing in the app… 🌬️ See you there!");
+ });
+ }
+
+ /* ============ FLOW: PAIN RELIEF ============ */
+ function startPain() {
+ chat.innerHTML = '';
+ addDateChips();
+ typing(800, () => {
+ addIncoming("💚 Quick one, where do you feel pain the most these days?");
+ addButtons([
+ { label: 'Knee', action: () => painPick('Knee') },
+ { label: 'Back', action: () => painPick('Back') },
+ { label: 'Neck', action: () => painPick('Neck') },
+ { label: 'Shoulder', action: () => painPick('Shoulder') }
+ ]);
+ });
+ }
+
+ function painPick(part) {
+ addOutgoing(part);
+ typing(1000, () => {
+ addIncoming(`Thank you for sharing 💚 Here's one gentle move you can try for your ${part.toLowerCase()}.`);
+ typing(1200, () => {
+ addVideo(part);
+ typing(1300, () => {
+ addIncoming(`This is just one. Your full ${part.toLowerCase()}-relief plan, with safe daily exercises made for your condition, is in the app.`);
+ addButtons([
+ { label: 'Open Pain Relief →', action: () => painOpenApp(part) }
+ ]);
+ });
+ });
+ });
+ }
+
+ function painOpenApp(part) {
+ addOutgoing('Open Pain Relief');
+ typing(950, () => {
+ addIncoming(`Opening your ${part.toLowerCase()}-relief plan in the app… 💚`);
+ });
+ }
+
+ /* ---------- shared chrome ---------- */
+ function addDateChips() {
+ const enc = document.createElement('div');
+ enc.className = 'chip-row';
+ enc.innerHTML = `<div class="chip enc">🔒 Messages are end-to-end encrypted. This is a business account.</div>`;
+ chat.appendChild(enc);
+ const date = document.createElement('div');
+ date.className = 'chip-row';
+ date.innerHTML = `<div class="chip date">Today</div>`;
+ chat.appendChild(date);
+ }
+
+ /* ---------- controls ---------- */
+ function setFlow(flow) {
+ if (busy && flow === currentFlow) return;
+ currentFlow = flow;
+ document.getElementById('tab-breath').classList.toggle('active', flow === 'breath');
+ document.getElementById('tab-pain').classList.toggle('active', flow === 'pain');
+ busy = false;
+ replay();
+ }
+
+ function replay() {
+ busy = false;
+ if (currentFlow === 'breath') startBreath();
+ else startPain();
+ }
+
+ /* init */
+ startBreath();
+</script>
+</body>
+</html>
