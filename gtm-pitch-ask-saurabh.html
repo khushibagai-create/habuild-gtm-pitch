@@ -53,6 +53,29 @@
   .pillar p{font-size:14px;margin-top:10px;}
   .pillar ul{margin:10px 0 0 0;padding-left:18px;}
   .pillar li{font-size:13px;color:var(--warm);margin-bottom:6px;}
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;}
+  .track{border-radius:20px;padding:32px;}
+  .track.feat{background:var(--sage-700);}
+  .track.func{background:var(--ivory);border:1px solid var(--sage-200);}
+  .track .tk{font-family:'Outfit';font-weight:800;font-size:13px;letter-spacing:1px;}
+  .track.feat .tk{color:#e8cc80;}
+  .track.func .tk{color:var(--gold-dk);}
+  .track h3{font-size:22px;margin-top:10px;}
+  .track.feat h3{color:#fff;}
+  .track.func h3{color:var(--sage-700);}
+  .track p{font-size:14px;margin-top:10px;}
+  .track.feat p{color:#dbe8d6;}
+  .track.func p{color:var(--warm);}
+  .track ul{margin-top:14px;padding-left:18px;}
+  .track li{font-size:14px;margin-bottom:7px;}
+  .track.feat li{color:#eaf3e6;}
+  .track.func li{color:var(--warm);}
+  .funclist{margin-top:36px;display:flex;flex-direction:column;gap:14px;}
+  .funcitem{display:flex;gap:18px;background:var(--ivory);border:1px solid var(--sage-200);border-radius:16px;padding:22px 24px;align-items:flex-start;}
+  .funcitem .fn{flex-shrink:0;font-family:'Outfit';font-weight:800;font-size:15px;color:#fff;background:var(--sage-500);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .funcitem .ft{font-family:'Outfit';font-weight:700;font-size:18px;color:var(--sage-700);}
+  .funcitem p{font-size:14px;margin-top:6px;color:var(--warm);}
+  .funcitem .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--gold-dk);background:#f3ead4;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
   .weekacc{margin-top:14px;border:1px solid var(--sage-200);border-radius:16px;background:var(--ivory);overflow:hidden;}
   .weekacc summary{list-style:none;cursor:pointer;padding:20px 24px;font-family:'Outfit';font-weight:700;font-size:18px;color:var(--sage-700);display:flex;justify-content:space-between;align-items:center;gap:16px;}
   .weekacc summary::-webkit-details-marker{display:none;}
@@ -69,7 +92,7 @@
   .wamsg{background:#dcf8c6;border-radius:12px;padding:12px 15px;font-size:14px;color:#1f3a1f;max-width:78%;align-self:flex-start;box-shadow:0 1px 2px rgba(0,0,0,.08);line-height:1.45;}
   .wamsg .day{display:block;font-size:11px;font-weight:700;color:#3f7a3f;margin-bottom:5px;letter-spacing:.4px;}
   .wamsg .hinglish{display:block;margin-top:7px;color:#3a5a3a;font-style:italic;font-size:13px;}
-  @media(max-width:900px){.loopgrid,.theme-cal,.pillars{grid-template-columns:1fr;}.askwrap{flex-direction:column;}.wamsg{max-width:100%;}}
+  @media(max-width:900px){.loopgrid,.theme-cal,.pillars,.tracks{grid-template-columns:1fr;}.askwrap{flex-direction:column;}.wamsg{max-width:100%;}.funcitem{flex-direction:column;gap:12px;}}
 </style>
 </head>
 <body>
@@ -107,17 +130,97 @@
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">What we are doing</div>
-    <h2>Three parts to this GTM.</h2>
-    <p class="lead">The weekly habit is the heart of it. Two more pieces support it, so members can find their way around the app and understand why it is worth opening.</p>
+    <div class="eyebrow">How the plan is split</div>
+    <h2>Two tracks, running together.</h2>
+    <p class="lead">The plan has two sides. One is what members feel: a good habit every week. The other is the functionality underneath that gets members onto the app and keeps it useful. They run at the same time.</p>
+    <div class="tracks">
+      <div class="track feat">
+        <div class="tk">TRACK 1 · FEATURES</div>
+        <h3>One good habit a week</h3>
+        <p>The member-facing story. Each week is one habit, opened by Saurabh in class, with the feature that keeps it going.</p>
+        <ul>
+          <li>Week 1 · Water</li>
+          <li>Week 2 · Breathing</li>
+          <li>Week 3 · Pain Relief</li>
+          <li>Week 4 · Recipes</li>
+          <li>Week 5 · Post-session logging</li>
+          <li>Week 6 · Brain Games</li>
+          <li>Week 7 · Walk</li>
+        </ul>
+      </div>
+      <div class="track func">
+        <div class="tk">TRACK 2 · FUNCTIONALITY</div>
+        <h3>The pushes underneath</h3>
+        <p>Not a member-facing habit. These are the operational levers that get members onto the app and keep it worth opening.</p>
+        <ul>
+          <li>App Enablement (install, OTP, update)</li>
+          <li>Batch change to any slot</li>
+          <li>Community Events</li>
+          <li>Today</li>
+          <li>Sunday Session</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Track 2, in detail</div>
+    <h2>The functionality pushes.</h2>
+    <p class="lead">These run across the whole campaign, not tied to any one week.</p>
+    <div class="funclist">
+      <div class="funcitem">
+        <div class="fn">1</div>
+        <div>
+          <div class="ft">App Enablement <span class="tag">FROM 28 JUNE</span></div>
+          <p>When a member pays, the post-payment message walks them onto the app: install it, log in with OTP, and update to the latest version. A follow-up call backs it up where the message alone does not land.</p>
+        </div>
+      </div>
+      <div class="funcitem">
+        <div class="fn">2</div>
+        <div>
+          <div class="ft">Batch change to any slot</div>
+          <p>Members can move to any session slot from the app. A real reason to open it, and one less thing to message support about.</p>
+        </div>
+      </div>
+      <div class="funcitem">
+        <div class="fn">3</div>
+        <div>
+          <div class="ft">Community Events</div>
+          <p>Promoted by message and by call, so members know what is happening and come to the app to take part. The weekly answer clips feed this too.</p>
+        </div>
+      </div>
+      <div class="funcitem">
+        <div class="fn">4</div>
+        <div>
+          <div class="ft">Today <span class="tag">TO DISCUSS</span></div>
+          <p>The Today tab as the daily landing place in the app. Shape still to be discussed.</p>
+        </div>
+      </div>
+      <div class="funcitem">
+        <div class="fn">5</div>
+        <div>
+          <div class="ft">Sunday Session</div>
+          <p>The weekly Sunday session as a reason to open the app every week.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What we are building to support it</div>
+    <h2>Three things to get ready.</h2>
     <div class="pillars">
       <div class="pillar">
-        <div class="pn">PART 1</div>
-        <h3>One feature a week, as one good habit</h3>
-        <p>Each week we introduce one feature as one good habit. Saurabh opens it in class, members ask their question in the app, and the feature is what keeps the habit going. Seven habits across the campaign.</p>
+        <div class="pn">BUILD 1</div>
+        <h3>The Hydration feature</h3>
+        <p>The water tracker for week 1. It reminds members and lets them tick each glass. Still being built.</p>
       </div>
       <div class="pillar">
-        <div class="pn">PART 2</div>
+        <div class="pn">BUILD 2</div>
         <h3>A YouTube playlist of tutorials</h3>
         <p>One playlist members can come back to any time:</p>
         <ul>
@@ -125,12 +228,11 @@
           <li>How to update the app</li>
           <li>A short tutorial for every feature</li>
         </ul>
-        <p>Saurabh points to it in class and on WhatsApp whenever someone gets stuck.</p>
       </div>
       <div class="pillar">
-        <div class="pn">PART 3</div>
+        <div class="pn">BUILD 3</div>
         <h3>An onboarding video from Saurabh</h3>
-        <p>We need one video from Saurabh where he talks about why the app matters, the value it adds beyond the live class. New and existing members see it when they first open the app, so the first thing they hear is from him.</p>
+        <p>One video where Saurabh talks about why the app matters, the value it adds beyond the live class. Members see it when they first open the app.</p>
       </div>
     </div>
   </div>
