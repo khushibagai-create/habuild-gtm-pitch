@@ -46,7 +46,30 @@
   .example .step .lab{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--gold-dk);}
   .example .step p{font-size:16px;color:var(--ink);margin-top:6px;}
   .example .step em{color:var(--warm);font-style:italic;}
-  @media(max-width:900px){.loopgrid,.theme-cal{grid-template-columns:1fr 1fr;}.askwrap{flex-direction:column;}}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
+  .pillar{background:var(--ivory);border:1px solid var(--sage-200);border-radius:18px;padding:28px;}
+  .pillar .pn{font-family:'Outfit';font-weight:800;font-size:13px;color:var(--gold-dk);letter-spacing:1px;}
+  .pillar h3{font-size:19px;color:var(--sage-700);margin-top:10px;line-height:1.25;}
+  .pillar p{font-size:14px;margin-top:10px;}
+  .pillar ul{margin:10px 0 0 0;padding-left:18px;}
+  .pillar li{font-size:13px;color:var(--warm);margin-bottom:6px;}
+  .weekacc{margin-top:14px;border:1px solid var(--sage-200);border-radius:16px;background:var(--ivory);overflow:hidden;}
+  .weekacc summary{list-style:none;cursor:pointer;padding:20px 24px;font-family:'Outfit';font-weight:700;font-size:18px;color:var(--sage-700);display:flex;justify-content:space-between;align-items:center;gap:16px;}
+  .weekacc summary::-webkit-details-marker{display:none;}
+  .weekacc summary .wkmeta{font-family:'Work Sans';font-weight:600;font-size:13px;color:var(--warm-light);text-align:right;}
+  .weekacc summary::after{content:"+";font-family:'Outfit';font-weight:700;color:var(--sage-500);font-size:22px;margin-left:4px;}
+  .weekacc[open] summary::after{content:"\2212";}
+  .weekacc[open] summary{border-bottom:1px solid var(--sage-200);}
+  .weekbody{padding:6px 24px 26px;}
+  .scriptblock{margin-top:20px;}
+  .scriptblock .lab{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--gold-dk);}
+  .hindi-script{background:#f4f8f4;border-left:3px solid var(--sage-500);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:10px;font-size:15px;color:var(--ink);line-height:1.6;}
+  .scriptblock .en{font-size:13px;color:var(--warm);margin-top:10px;}
+  .wamsgs{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+  .wamsg{background:#dcf8c6;border-radius:12px;padding:12px 15px;font-size:14px;color:#1f3a1f;max-width:78%;align-self:flex-start;box-shadow:0 1px 2px rgba(0,0,0,.08);line-height:1.45;}
+  .wamsg .day{display:block;font-size:11px;font-weight:700;color:#3f7a3f;margin-bottom:5px;letter-spacing:.4px;}
+  .wamsg .hinglish{display:block;margin-top:7px;color:#3a5a3a;font-style:italic;font-size:13px;}
+  @media(max-width:900px){.loopgrid,.theme-cal,.pillars{grid-template-columns:1fr;}.askwrap{flex-direction:column;}.wamsg{max-width:100%;}}
 </style>
 </head>
 <body>
@@ -79,6 +102,37 @@
     <div class="eyebrow">The idea</div>
     <h2>Each week is one habit. The app is where you keep it.</h2>
     <p class="lead">Every feature we have built is really one good habit: drink water, breathe to calm down, care for the spot that hurts, eat one healthy meal, log your check, keep your mind sharp, take a walk. We introduce one a week. By the end, a member's whole day is a chain of small good habits, and every one of them lives in the app. That is what No-Zero Days already rewards.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What we are doing</div>
+    <h2>Three parts to this GTM.</h2>
+    <p class="lead">The weekly habit is the heart of it. Two more pieces support it, so members can find their way around the app and understand why it is worth opening.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pn">PART 1</div>
+        <h3>One feature a week, as one good habit</h3>
+        <p>Each week we introduce one feature as one good habit. Saurabh opens it in class, members ask their question in the app, and the feature is what keeps the habit going. Seven habits across the campaign.</p>
+      </div>
+      <div class="pillar">
+        <div class="pn">PART 2</div>
+        <h3>A YouTube playlist of tutorials</h3>
+        <p>One playlist members can come back to any time:</p>
+        <ul>
+          <li>How to download the app</li>
+          <li>How to update the app</li>
+          <li>A short tutorial for every feature</li>
+        </ul>
+        <p>Saurabh points to it in class and on WhatsApp whenever someone gets stuck.</p>
+      </div>
+      <div class="pillar">
+        <div class="pn">PART 3</div>
+        <h3>An onboarding video from Saurabh</h3>
+        <p>We need one video from Saurabh where he talks about why the app matters, the value it adds beyond the live class. New and existing members see it when they first open the app, so the first thing they hear is from him.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -174,6 +228,155 @@
       <div class="step"><div class="lab">Saurabh answers in class</div><p><em>"Sunita, who has completed 400 yoga days, asked me, I just forget to drink water. Sunita, this is exactly why we added the water tracker in the app. It reminds you, and you tick each glass. Let us build this habit together this week."</em></p></div>
       <div class="step"><div class="lab">The habit sticks</div><p>Sunita gets a message: "Saurabh answered your question today. Watch it, and open the water tracker." Others get the clip on WhatsApp and in Status.</p></div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Week by week</div>
+    <h2>The class script and WhatsApp messages, for every week.</h2>
+    <p class="lead">Open any week to see what Saurabh says in class and the messages we send on WhatsApp that week. Class scripts are in Hindi, written in English letters. WhatsApp messages are in English, with a Hinglish version of the main announcement.</p>
+
+    <details class="weekacc" open>
+      <summary><span>Week 1 · Water</span><span class="wkmeta">Drink enough water<br>Water tracker · Jul 6 to 12</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Bahut saare students mujhse poochte hain, Habuild ka matlab kya hai? Habuild ka matlab hai habit building. Hum sirf yahi karte hain, har din thoda movement, ek achhi aadat. Is hafte se hum har hafte ek chhoti aadat saath banayenge, shuruaat paani se. Din bhar paani peena, kaun nahi peena chahta? Toh is hafte aap mujhse paani ke baare mein kuch bhi pooch sakte ho, app mein. Main yahan class mein jawab dunga. App mein ek water tracker bhi hai jo aapko yaad dilata hai, aur aap har glass tick karte ho."</div>
+          <div class="en">He explains Habuild means habit building, introduces the one habit a week idea, starts with water, invites questions in the app, and points to the water tracker.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week at Habuild we are building one good habit together: drinking enough water. Have a question about it? Ask Saurabh in the app. He answers some of you live in class this week.<span class="hinglish">Is hafte hum ek achhi aadat saath bana rahe hain: paani peena. Koi sawaal hai? Saurabh se app mein poochiye, woh class mein jawab denge.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · A SMALL START</span>One glass of water right after you wake up. Tick it in the app, and your water habit has begun.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's water question in class today. Watch the clip, and start your own water habit in the app.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>You ticked water on 4 days this week. One glass after class tomorrow keeps your No-Zero Day going.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 2 · Breath</span><span class="wkmeta">Breathe to calm down<br>Box Breathing · Jul 13 to 18</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Pichhle hafte humne paani ki aadat shuru ki. Is hafte ek aur chhoti aadat: saans. Class ke baad sirf do minute, shaant saans. Bahut saare students bolte hain, mann shaant nahi rehta, raat ko neend nahi aati. Is hafte mujhse saans ke baare mein poochiye. App mein box breathing hai, jahan aap apne level par, apni ginti par saans le sakte ho, har raat."</div>
+          <div class="en">Recaps the water habit, adds two calm minutes of breathing after class, invites breathing questions, and points to Box Breathing at your own pace.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>Last week, water. This week we add one more good habit: two calm minutes of breathing after your practice. Ask Saurabh your breathing question in the app.<span class="hinglish">Pichhle hafte paani. Is hafte ek aur aadat: practice ke baad do minute shaant saans. Saurabh se app mein poochiye.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · TRY TONIGHT</span>Breathe in for 4, hold for 4, out for 4, hold for 4. That is box breathing. Do it at your own count in the app.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's question about restless sleep in class. Watch, and open Box Breathing tonight.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Water, and two minutes of breathing. Two habits this week. Keep both going.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 3 · Care</span><span class="wkmeta">Care for the spot that hurts<br>Pain Relief · dates to confirm</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Ab humari do aadatein ban rahi hain, paani aur saans. Is hafte teesri: apne dard ka dhyaan rakhna. Bahut saare students bolte hain, ghutne mein ya kamar mein dard rehta hai. Is hafte mujhse apne dard ke baare mein poochiye. App mein pain relief hai, jahan aapke dard ke hisaab se ek chhoti daily move hai."</div>
+          <div class="en">Recaps two habits, adds caring for the spot that hurts, invites pain questions, and points to Pain Relief with a small daily move.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week's good habit: caring for the spot that hurts. Knee, back or shoulder, ask Saurabh in the app and he will guide you in class.<span class="hinglish">Is hafte ki aadat: apne dard ka dhyaan. Ghutna, kamar ya kandha, Saurabh se app mein poochiye.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · A SMALL MOVE</span>One gentle move a day for a sore knee can change your week. Find yours in the app.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's knee pain question in class. Watch, and try your daily move in Pain Relief.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Three habits now: water, breath, and your daily care move. Small things, every day.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 4 · Eat</span><span class="wkmeta">Eat one healthy meal<br>Recipes · dates to confirm</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Char hafte, char aadatein. Is hafte: ek healthy meal. Roz ek achha, simple khana. Bahut students poochte hain, kya khaayein jo healthy bhi ho aur ghar ka bhi. Is hafte mujhse khaane ke baare mein poochiye. App mein recipes hain, har din ek nayi healthy recipe, aur aap apni recipe bhi daal sakte ho."</div>
+          <div class="en">Adds the one healthy meal a day habit, invites food questions, and points to Recipes (a daily recipe, and members can add their own).</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week's good habit: one healthy meal a day. Ask Saurabh what to cook, in the app, and see this week's recipes.<span class="hinglish">Is hafte ki aadat: roz ek healthy meal. Saurabh se poochiye kya banayein, app mein, aur is hafte ki recipes dekhiye.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · COOK ALONG</span>Today's recipe takes 15 minutes and uses what is already in your kitchen. Open the app to cook along.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's question on healthy breakfasts. Watch, and share your own healthy recipe in the app.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Four habits now: water, breath, care, and one healthy meal a day.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 5 · Track</span><span class="wkmeta">Log your check after class<br>Daily Fitness Check · dates to confirm</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Is hafte ek aadat jo aapko aapki progress dikhati hai. Class ke baad hum jo karte hain, jaise saans rokna ya squats, woh aap app mein log karte ho. Sirf number daaliye. Har din thoda behtar. Is hafte mujhse apni progress ke baare mein poochiye. App mein daily fitness check hai."</div>
+          <div class="en">Adds the log your check after class habit (you perform it in class, you log the number in the app), invites progress questions, and points to Daily Fitness Check.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week's good habit: log your daily check after class. You do it in class, you tick the number in the app, and you watch yourself improve.<span class="hinglish">Is hafte ki aadat: class ke baad apna daily check log karna. Class mein karo, app mein number tick karo, aur apni progress dekho.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · NOTE IT</span>Today after class, note how long you held your breath. Log it in the app, and compare next week.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's question on tracking progress. Watch, and log today's check.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Your weekly report is ready in the app. See how far you have come.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 6 · Mind</span><span class="wkmeta">Keep your mind sharp<br>Brain Games · dates to confirm</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Sehat sirf shareer ki nahi, dimaag ki bhi. Is hafte ek aadat dimaag ke liye: roz ek chhota game. Chai ke saath, do minute. Is hafte mujhse dimaag ko tez rakhne ke baare mein poochiye. App mein brain games hain."</div>
+          <div class="en">Adds the keep your mind sharp habit (one quick game a day), invites questions, and points to Brain Games.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week's good habit: keep your mind sharp. One quick game a day, with your evening tea. Ask Saurabh in the app.<span class="hinglish">Is hafte ki aadat: dimaag ko tez rakhna. Roz ek chhota game, shaam ki chai ke saath. Saurabh se app mein poochiye.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · PLAY TODAY</span>Two minutes, one game. A small habit for a sharp mind. Play today's in the app.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's question on memory. Watch, and play today's game.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Six habits now. Body and mind, a little every day.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="weekacc">
+      <summary><span>Week 7 · Move</span><span class="wkmeta">A walk after dinner<br>Walk · to confirm</span></summary>
+      <div class="weekbody">
+        <div class="scriptblock">
+          <div class="lab">In class · Saurabh</div>
+          <div class="hindi-script">"Aakhri aadat is mahine ki: khaane ke baad ek chhoti walk. Sirf das minute, raat ke khaane ke baad. Is hafte mujhse walking ke baare mein poochiye. App mein walk hai, jo aapke kadam ginta hai."</div>
+          <div class="en">Adds the walk after dinner habit, invites questions, and points to Walk, which counts your steps.</div>
+        </div>
+        <div class="scriptblock">
+          <div class="lab">On WhatsApp this week</div>
+          <div class="wamsgs">
+            <div class="wamsg"><span class="day">MONDAY · ANNOUNCE</span>This week's good habit: a 10-minute walk after dinner. Ask Saurabh how to make it a habit, in the app.<span class="hinglish">Is hafte ki aadat: raat ke khaane ke baad das minute ki walk. Saurabh se poochiye ise aadat kaise banayein, app mein.</span></div>
+            <div class="wamsg"><span class="day">WEDNESDAY · STEP OUT</span>A short walk after dinner helps digestion and sleep. Count your steps in the app tonight.</div>
+            <div class="wamsg"><span class="day">FRIDAY · SAURABH ANSWERS</span>Saurabh answered a member's question on staying active in the evening. Watch, and take your walk.</div>
+            <div class="wamsg"><span class="day">SUNDAY · KEEP IT GOING</span>Seven habits, seven weeks. Water, breath, care, food, check, mind, and a walk. Your whole day, in the app.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
   </div>
 </section>
 
